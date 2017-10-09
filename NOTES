@@ -1,0 +1,48 @@
+make tinyconfig
+-rw-rw-r-- 1 rminnich rminnich 548816 Oct  9 07:58 arch/x86/boot/bzImage
+
+add serial
+-rw-rw-r-- 1 rminnich rminnich 585680 Oct  9 08:03 arch/x86/boot/bzImage
+527,533c527
+< CONFIG_TTY=y
+< # CONFIG_VT is not set
+< CONFIG_UNIX98_PTYS=y
+< CONFIG_LEGACY_PTYS=y
+< CONFIG_LEGACY_PTY_COUNT=256
+< # CONFIG_SERIAL_NONSTANDARD is not set
+< # CONFIG_TRACE_SINK is not set
+---
+> # CONFIG_TTY is not set
+536,562d529
+< 
+< #
+< # Serial drivers
+< #
+< CONFIG_SERIAL_EARLYCON=y
+< CONFIG_SERIAL_8250=y
+< # CONFIG_SERIAL_8250_DEPRECATED_OPTIONS is not set
+< # CONFIG_SERIAL_8250_FINTEK is not set
+< CONFIG_SERIAL_8250_CONSOLE=y
+< CONFIG_SERIAL_8250_NR_UARTS=1
+< CONFIG_SERIAL_8250_RUNTIME_UARTS=1
+< # CONFIG_SERIAL_8250_EXTENDED is not set
+< # CONFIG_SERIAL_8250_FSL is not set
+< # CONFIG_SERIAL_8250_DW is not set
+< # CONFIG_SERIAL_8250_RT288X is not set
+< 
+< #
+< # Non-8250 serial port support
+< #
+< # CONFIG_SERIAL_UARTLITE is not set
+< CONFIG_SERIAL_CORE=y
+< CONFIG_SERIAL_CORE_CONSOLE=y
+< # CONFIG_SERIAL_SCCNXP is not set
+< # CONFIG_SERIAL_ALTERA_JTAGUART is not set
+< # CONFIG_SERIAL_ALTERA_UART is not set
+< # CONFIG_SERIAL_ARC is not set
+< # CONFIG_SERIAL_FSL_LPUART is not set
+564d530
+< # CONFIG_TTY_PRINTK is not set
+568,569d533
+< # CONFIG_R3964 is not set
+< # CONFIG_MWAVE is not set
