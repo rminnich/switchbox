@@ -1,1 +1,7 @@
-qemu-system-x86_64 -kernel arch/x86/boot/bzImage -serial stdio -monitor /dev/null -append earlyprintk=ttyS0,keep
+qemu-system-x86_64 -kernel arch/x86/boot/bzImage -serial stdio \
+-append earlyprintk=ttyS0,115200,keep
+
+
+exit 0 
+
+
