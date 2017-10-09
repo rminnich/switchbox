@@ -2,47 +2,60 @@ make tinyconfig
 -rw-rw-r-- 1 rminnich rminnich 548816 Oct  9 07:58 arch/x86/boot/bzImage
 
 add serial
--rw-rw-r-- 1 rminnich rminnich 585680 Oct  9 08:03 arch/x86/boot/bzImage
-527,533c527
-< CONFIG_TTY=y
-< # CONFIG_VT is not set
-< CONFIG_UNIX98_PTYS=y
-< CONFIG_LEGACY_PTYS=y
-< CONFIG_LEGACY_PTY_COUNT=256
-< # CONFIG_SERIAL_NONSTANDARD is not set
-< # CONFIG_TRACE_SINK is not set
+-rw-rw-r-- 1 rminnich rminnich 618448 Oct  9 08:28 arch/x86/boot/bzImage
+117a118,119
+> CONFIG_LOG_BUF_SHIFT=17
+> CONFIG_PRINTK_SAFE_LOG_BUF_SHIFT=13
+137c139,140
+< # CONFIG_PRINTK is not set
 ---
-> # CONFIG_TTY is not set
-536,562d529
-< 
-< #
-< # Serial drivers
-< #
-< CONFIG_SERIAL_EARLYCON=y
-< CONFIG_SERIAL_8250=y
-< # CONFIG_SERIAL_8250_DEPRECATED_OPTIONS is not set
-< # CONFIG_SERIAL_8250_FINTEK is not set
-< CONFIG_SERIAL_8250_CONSOLE=y
-< CONFIG_SERIAL_8250_NR_UARTS=1
-< CONFIG_SERIAL_8250_RUNTIME_UARTS=1
-< # CONFIG_SERIAL_8250_EXTENDED is not set
-< # CONFIG_SERIAL_8250_FSL is not set
-< # CONFIG_SERIAL_8250_DW is not set
-< # CONFIG_SERIAL_8250_RT288X is not set
-< 
-< #
-< # Non-8250 serial port support
-< #
-< # CONFIG_SERIAL_UARTLITE is not set
-< CONFIG_SERIAL_CORE=y
-< CONFIG_SERIAL_CORE_CONSOLE=y
-< # CONFIG_SERIAL_SCCNXP is not set
-< # CONFIG_SERIAL_ALTERA_JTAGUART is not set
-< # CONFIG_SERIAL_ALTERA_UART is not set
-< # CONFIG_SERIAL_ARC is not set
-< # CONFIG_SERIAL_FSL_LPUART is not set
-564d530
-< # CONFIG_TTY_PRINTK is not set
-568,569d533
-< # CONFIG_R3964 is not set
-< # CONFIG_MWAVE is not set
+> CONFIG_PRINTK=y
+> CONFIG_PRINTK_NMI=y
+527c530,536
+< # CONFIG_TTY is not set
+---
+> CONFIG_TTY=y
+> # CONFIG_VT is not set
+> CONFIG_UNIX98_PTYS=y
+> CONFIG_LEGACY_PTYS=y
+> CONFIG_LEGACY_PTY_COUNT=256
+> # CONFIG_SERIAL_NONSTANDARD is not set
+> # CONFIG_TRACE_SINK is not set
+529a539,562
+> 
+> #
+> # Serial drivers
+> #
+> CONFIG_SERIAL_8250=y
+> CONFIG_SERIAL_8250_DEPRECATED_OPTIONS=y
+> # CONFIG_SERIAL_8250_FINTEK is not set
+> # CONFIG_SERIAL_8250_CONSOLE is not set
+> CONFIG_SERIAL_8250_NR_UARTS=4
+> CONFIG_SERIAL_8250_RUNTIME_UARTS=4
+> # CONFIG_SERIAL_8250_EXTENDED is not set
+> # CONFIG_SERIAL_8250_DW is not set
+> # CONFIG_SERIAL_8250_RT288X is not set
+> 
+> #
+> # Non-8250 serial port support
+> #
+> # CONFIG_SERIAL_UARTLITE is not set
+> CONFIG_SERIAL_CORE=y
+> # CONFIG_SERIAL_SCCNXP is not set
+> # CONFIG_SERIAL_ALTERA_JTAGUART is not set
+> # CONFIG_SERIAL_ALTERA_UART is not set
+> # CONFIG_SERIAL_ARC is not set
+> # CONFIG_SERIAL_FSL_LPUART is not set
+530a564
+> # CONFIG_TTY_PRINTK is not set
+533a568,569
+> # CONFIG_R3964 is not set
+> # CONFIG_MWAVE is not set
+792a829
+> # CONFIG_PRINTK_TIME is not set
+794a832
+> # CONFIG_BOOT_PRINTK_DELAY is not set
+927c965
+< # CONFIG_EARLY_PRINTK is not set
+---
+> CONFIG_EARLY_PRINTK=y
