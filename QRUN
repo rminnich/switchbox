@@ -1,5 +1,9 @@
 qemu-system-x86_64 -kernel arch/x86/boot/bzImage -serial stdio \
+-m 4096 \
 -initrd initramfs.linux_amd64.cpio \
+-append 'init=/ubin/console earlyprintk=ttyS0,115200,keep' \
+
+exit 0
 -append earlyprintk=ttyS0,115200,keep
 
 
