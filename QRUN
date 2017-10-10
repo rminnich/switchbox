@@ -1,4 +1,5 @@
 qemu-system-x86_64 -kernel arch/x86/boot/bzImage -serial stdio \
+-initrd initramfs.linux_amd64.cpio \
 -append earlyprintk=ttyS0,115200,keep
 
 
