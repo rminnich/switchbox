@@ -18,14 +18,14 @@ gfp_t __userpte_alloc_gfp = PGALLOC_GFP | PGALLOC_USER_GFP;
 
 pte_t *pte_alloc_one_kernel(struct mm_struct *mm, unsigned long address)
 {
-	return (pte_t *)__get_free_page(PGALLOC_GFP & ~__GFP_ACCOUNT);
+	return (pte_t *)__get_free_pages(PGALLOC_GFP & ~__GFP_ACCOUNT, 1);
 }
 
 pgtable_t pte_alloc_one(struct mm_struct *mm, unsigned long address)
 {
 	struct page *pte;
 
-	pte = alloc_pages(__userpte_alloc_gfp, 0);
+	pte = alloc_pages(__userpte_alloc_gfp, 1);
 	if (!pte)
 		return NULL;
 	if (!pgtable_page_ctor(pte)) {
