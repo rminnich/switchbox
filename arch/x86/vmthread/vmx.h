@@ -22,10 +22,6 @@
  *
  */
 
-#pragma once
-
-#include <ros/arch/vmx.h>
-
 /* Additional bits for VMMCPs, originally from the Dune version of kvm. */
 /*
  * vmx.h - header file for USM VMX driver.
@@ -35,27 +31,27 @@
  * should be assumed to have hidden fields.
  */
 struct vmcs {
-	uint32_t revision_id;
-	uint32_t abort_code;
-	char _impl_specific[PGSIZE - sizeof(uint32_t) * 2];
+	u32 revision_id;
+	u32 abort_code;
+	char _impl_specific[PGSIZE - sizeof(u32) * 2];
 };
 
-typedef uint64_t gpa_t;
-typedef uint64_t gva_t;
+typedef u64 gpa_t;
+typedef u64 gva_t;
 
 struct vmx_capability {
-	uint32_t ept;
-	uint32_t vpid;
+	u32 ept;
+	u32 vpid;
 };
 
 struct vmcs_config {
 	int size;
-	uint32_t revision_id;
-	uint32_t pin_based_exec_ctrl;
-	uint32_t cpu_based_exec_ctrl;
-	uint32_t cpu_based_2nd_exec_ctrl;
-	uint32_t vmexit_ctrl;
-	uint32_t vmentry_ctrl;
+	u32 revision_id;
+	u32 pin_based_exec_ctrl;
+	u32 cpu_based_exec_ctrl;
+	u32 cpu_based_2nd_exec_ctrl;
+	u32 vmexit_ctrl;
+	u32 vmentry_ctrl;
 };
 
 struct guest_pcore {
@@ -65,11 +61,11 @@ struct guest_pcore {
 	struct vmcs *vmcs;
 	int vmcs_core_id;
 	bool should_vmresume;
-	uint64_t xcr0;
-	uint64_t msr_kern_gs_base;
-	uint64_t msr_star;
-	uint64_t msr_lstar;
-	uint64_t msr_sfmask;
+	u64 xcr0;
+	u64 msr_kern_gs_base;
+	u64 msr_star;
+	u64 msr_lstar;
+	u64 msr_sfmask;
 };
 
 #define NR_AUTOLOAD_MSRS 8
@@ -82,8 +78,8 @@ struct desc_struct {
                         unsigned int b;
                 };
                 struct {
-                        uint16_t limit0;
-                        uint16_t base0;
+                        u16 limit0;
+                        u16 base0;
                         unsigned base1: 8, type: 4, s: 1, dpl: 2, p: 1;
                         unsigned limit: 4, avl: 1, l: 1, d: 1, g: 1, base2: 8;
                 };
@@ -92,12 +88,12 @@ struct desc_struct {
 
 /* LDT or TSS descriptor in the GDT. 16 bytes. */
 struct ldttss_desc64 {
-	uint16_t limit0;
-	uint16_t base0;
+	u16 limit0;
+	u16 base0;
 	unsigned base1 : 8, type : 5, dpl : 2, p : 1;
 	unsigned limit1 : 4, zero0 : 3, g : 1, base2 : 8;
-	uint32_t base3;
-	uint32_t zero1;
+	u32 base3;
+	u32 zero1;
 } __attribute__((packed));
 
 #define INTEL_MSR_WRITE_OFFSET			2048
@@ -133,16 +129,16 @@ static inline bool cpu_has_vmx_eptp_writeback(void);
 static inline bool cpu_has_vmx_ept_2m_page(void);
 static inline bool cpu_has_vmx_ept_1g_page(void);
 static inline bool cpu_has_vmx_ept_4levels(void);
-static inline void __invept(int ext, uint64_t eptp, gpa_t gpa);
+static inline void __invept(int ext, u64 eptp, gpa_t gpa);
 static inline void ept_sync_global(void);
-static inline void ept_sync_context(uint64_t eptp);
-static inline void ept_sync_individual_addr(uint64_t eptp, gpa_t gpa);
-static inline void __vmxon(uint64_t addr);
+static inline void ept_sync_context(u64 eptp);
+static inline void ept_sync_individual_addr(u64 eptp, gpa_t gpa);
+static inline void __vmxon(u64 addr);
 static inline void __vmxoff(void);
-static inline void __invvpid(int ext, uint16_t vpid, gva_t gva);
-static inline void vpid_sync_gpc_single(uint16_t vpid);
+static inline void __invvpid(int ext, u16 vpid, gva_t gva);
+static inline void vpid_sync_gpc_single(u16 vpid);
 static inline void vpid_sync_gpc_global(void);
-static inline void vpid_sync_context(uint16_t vpid);
+static inline void vpid_sync_context(u16 vpid);
 
 /* no way to get around some of this stuff. */
 /* we will do the bare minimum required. */
@@ -257,10 +253,10 @@ static inline bool cpu_has_vmx_ept_4levels(void)
 	return vmx_capability.ept & VMX_EPT_PAGE_WALK_4_BIT;
 }
 
-static inline void __invept(int ext, uint64_t eptp, gpa_t gpa)
+static inline void __invept(int ext, u64 eptp, gpa_t gpa)
 {
 	struct {
-		uint64_t eptp, gpa;
+		u64 eptp, gpa;
 	} operand = {eptp, gpa};
 
 	asm volatile (ASM_VMX_INVEPT
@@ -275,7 +271,7 @@ static inline void ept_sync_global(void)
 	__invept(VMX_EPT_EXTENT_GLOBAL, 0, 0);
 }
 
-static inline void ept_sync_context(uint64_t eptp)
+static inline void ept_sync_context(u64 eptp)
 {
 	if (cpu_has_vmx_invept_context())
 		__invept(VMX_EPT_EXTENT_CONTEXT, eptp, 0);
@@ -283,7 +279,7 @@ static inline void ept_sync_context(uint64_t eptp)
 		ept_sync_global();
 }
 
-static inline void ept_sync_individual_addr(uint64_t eptp, gpa_t gpa)
+static inline void ept_sync_individual_addr(u64 eptp, gpa_t gpa)
 {
 	if (cpu_has_vmx_invept_individual_addr())
 		__invept(VMX_EPT_EXTENT_INDIVIDUAL_ADDR,
@@ -292,7 +288,7 @@ static inline void ept_sync_individual_addr(uint64_t eptp, gpa_t gpa)
 		ept_sync_context(eptp);
 }
 
-static inline void __vmxon(uint64_t addr)
+static inline void __vmxon(u64 addr)
 {
 	asm volatile (ASM_VMX_VMXON_RAX
 			: : "a"(&addr), "m"(addr)
@@ -304,12 +300,12 @@ static inline void __vmxoff(void)
 	asm volatile (ASM_VMX_VMXOFF : : : "cc");
 }
 
-static inline void __invvpid(int ext, uint16_t vpid, gva_t gva)
+static inline void __invvpid(int ext, u16 vpid, gva_t gva)
 {
     struct {
-	uint64_t vpid : 16;
-	uint64_t rsvd : 48;
-	uint64_t gva;
+	u64 vpid : 16;
+	u64 rsvd : 48;
+	u64 gva;
     } operand = { vpid, 0, gva };
 
     asm volatile (ASM_VMX_INVVPID
@@ -318,7 +314,7 @@ static inline void __invvpid(int ext, uint16_t vpid, gva_t gva)
 		  : : "a"(&operand), "c"(ext) : "cc", "memory");
 }
 
-static inline void vpid_sync_gpc_single(uint16_t vpid)
+static inline void vpid_sync_gpc_single(u16 vpid)
 {
 	if (vpid == 0) {
 		return;
@@ -334,7 +330,7 @@ static inline void vpid_sync_gpc_global(void)
 		__invvpid(VMX_VPID_EXTENT_ALL_CONTEXT, 0, 0);
 }
 
-static inline void vpid_sync_context(uint16_t vpid)
+static inline void vpid_sync_context(u16 vpid)
 {
 	if (cpu_has_vmx_invvpid_single())
 		vpid_sync_gpc_single(vpid);
@@ -379,28 +375,28 @@ static inline bool vmcs_write(unsigned long field, unsigned long value)
  */
 struct vmxec {
 	char *name;
-	uint32_t msr;
-	uint32_t truemsr;
-	uint32_t must_be_1;
-	uint32_t must_be_0;
-	uint32_t try_set_1;
-	uint32_t try_set_0;
-	uint32_t hw_changeable;
-	uint32_t policy_changeable;
+	u32 msr;
+	u32 truemsr;
+	u32 must_be_1;
+	u32 must_be_0;
+	u32 try_set_1;
+	u32 try_set_0;
+	u32 hw_changeable;
+	u32 policy_changeable;
 };
 
 /* Per-VM VMX info */
 struct vmx_vmm {
-	uint32_t					pin_exec_ctls;
-	uint32_t					cpu_exec_ctls;
-	uint32_t					cpu2_exec_ctls;
+	u32					pin_exec_ctls;
+	u32					cpu_exec_ctls;
+	u32					cpu2_exec_ctls;
 };
 
 int intel_vmm_init(void);
 int intel_vmm_pcpu_init(void);
 void vmx_load_guest_pcore(struct guest_pcore *gpc);
 void vmx_unload_guest_pcore(struct guest_pcore *gpc);
-uint64_t gpc_get_eptp(struct guest_pcore *gpc);
+u64 gpc_get_eptp(struct guest_pcore *gpc);
 void vmx_clear_vmcs(void);
 void vmx_setup_vmx_vmm(struct vmx_vmm *vmx);
 int vmx_ctl_get_exits(struct vmx_vmm *vmx);

@@ -1,0 +1,8 @@
+config VMTHREAD
+	bool "vmthread support"
+	select TTY
+	select VIRTUALIZATION
+	select VIRTIO
+	select VIRTIO_CONSOLE
+	help
+	  vmthreads

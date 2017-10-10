@@ -136,33 +136,7 @@
  * this code is more modern than the other code, yet still
  * well encapsulated, it seems.
  */
-#include <kmalloc.h>
-#include <string.h>
-#include <stdio.h>
-#include <assert.h>
-#include <error.h>
-#include <pmap.h>
-#include <sys/queue.h>
-#include <smp.h>
-#include <kref.h>
-#include <atomic.h>
-#include <alarm.h>
-#include <event.h>
-#include <umem.h>
-#include <bitops.h>
-#include <arch/types.h>
-#include <syscall.h>
-#include <arch/io.h>
-#include <percpu.h>
-
-#include <ros/vmm.h>
 #include "vmx.h"
-#include "../vmm.h"
-
-#include <trap.h>
-
-#include <smp.h>
-#include <ros/procinfo.h>
 
 #define currentcpu (&per_cpu_info[core_id()])
 
@@ -172,6 +146,7 @@ static unsigned long *io_bitmap;
 
 int x86_ept_pte_fix_ups = 0;
 
+#if 0
 struct vmx_capability vmx_capability;
 struct vmcs_config vmcs_config;
 
@@ -1463,3 +1438,4 @@ int vmx_ctl_set_exits(struct vmx_vmm *vmx, int vmm_exits)
 	WRITE_ONCE(vmx->cpu_exec_ctls, vmx->cpu_exec_ctls ^ vmx_toggle_do);
 	return 0;
 }
+#endif
